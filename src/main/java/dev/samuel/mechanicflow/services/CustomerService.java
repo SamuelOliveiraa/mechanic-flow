@@ -21,4 +21,8 @@ public class CustomerService {
     public CustomerModel save(CustomerModel customer){
         return customerRepository.save(customer);
     }
+
+    public void delete(UUID customer_id){
+        return customerRepository.deleteById(customer_id)
+    }
 }

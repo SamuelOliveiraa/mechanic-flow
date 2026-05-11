@@ -5,14 +5,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record CustomerPostDTO(
-        @NotBlank(message = "O nome é obrigatório")
+        @NotBlank(message = "Name is required")
         @Size(min = 3, max = 100)
         String name,
 
-        @NotBlank(message = "O e-mail é obrigatório")
-        @Email(message = "E-mail inválido")
+        @NotBlank(message = "Email is required")
+        @Email(message = "Invalid email address")
         String email,
 
-        @NotBlank(message = "O telefone é obrigatório")
+        @NotBlank(message = "Phone is required")
         String phone) {
 }

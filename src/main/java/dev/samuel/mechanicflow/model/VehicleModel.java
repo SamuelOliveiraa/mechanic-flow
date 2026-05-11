@@ -16,15 +16,19 @@ public class VehicleModel {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
+    @NotBlank(message = "License plate is required")
+    @Column(nullable = false, unique = true)
     private String licensePlate;
 
+    @NotBlank(message = "Model vehicle is required")
     @Column(nullable = false)
     private String model;
 
+    @NotBlank(message = "Brand vehicle is required")
     @Column(nullable = false)
     private String brand;
 
+    @Min(value = 1900, message = "Year must be valid")
     @Column(name = "manufacture_year")
     private int year;
 

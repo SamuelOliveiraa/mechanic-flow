@@ -18,18 +18,21 @@ public class ServiceOrderModel {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank(message = "Description is required")
     private String description;
 
-    private Long totalPriceInCents;
+    @Min(value = 0, message = "Price must be valid")
+    private Long totalPriceInCents = 0;
 
     @Enumerated(EnumType.STRING)
     private ServiceOrderStatus status = ServiceOrderStatus.OPEN;
 
     @CreationTimestamp
     @Column(name = "entry_date", nullable = false)
-    private LocalDateTime entry_date;
+    private LocalDateTime entryDate ;
 
-    private LocalDateTime exit_date;
+    @Column(name = "exit_date")
+    private LocalDateTime exitDate = null;
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id", nullable = false)
