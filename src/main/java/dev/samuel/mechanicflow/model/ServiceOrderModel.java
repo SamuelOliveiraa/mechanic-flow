@@ -2,6 +2,8 @@ package dev.samuel.mechanicflow.model;
 
 import dev.samuel.mechanicflow.enums.ServiceOrderStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,7 +24,7 @@ public class ServiceOrderModel {
     private String description;
 
     @Min(value = 0, message = "Price must be valid")
-    private Long totalPriceInCents = 0;
+    private Long totalPriceInCents = 0L;
 
     @Enumerated(EnumType.STRING)
     private ServiceOrderStatus status = ServiceOrderStatus.OPEN;

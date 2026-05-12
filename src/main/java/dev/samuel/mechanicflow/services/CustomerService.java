@@ -1,10 +1,15 @@
 package dev.samuel.mechanicflow.services;
 
-import dev.samuel.mechanicflow.dto.CustomerPostDTO;
 import dev.samuel.mechanicflow.model.CustomerModel;
 import dev.samuel.mechanicflow.repository.CustomerRepository;
-import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.UUID;
+
+@Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
 
@@ -23,7 +28,12 @@ public class CustomerService {
     }
 
     // DELETE
-    public void delete(UUID customer_id){
-        return customerRepository.deleteById(customer_id)
+    public List<CustomerModel> delete(UUID customer_id) {
+        if(!customerRepository.existsById(customer_id)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Customer was not found!");
+        }
+
+        customerRepository.deleteById(customer_id);
+        return getAll();
     }
 }

@@ -1,6 +1,8 @@
 package dev.samuel.mechanicflow.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -38,5 +40,4 @@ public class VehicleModel {
 
     @OneToMany(mappedBy = "vehicle")
     private List<ServiceOrderModel> service_orders;
-
 }

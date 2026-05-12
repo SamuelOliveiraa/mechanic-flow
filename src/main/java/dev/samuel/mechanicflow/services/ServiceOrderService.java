@@ -1,11 +1,19 @@
 package dev.samuel.mechanicflow.services;
 
-import java.util.List;
+import dev.samuel.mechanicflow.model.ServiceOrderModel;
+import dev.samuel.mechanicflow.repository.ServiceOrderRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.UUID;
+
+@Service
 public class ServiceOrderService {
     private final ServiceOrderRepository serviceOrderRepository;
 
-    public ServiceOrderService(ServiceOrderRepository ServiceOrderRepository) {
+    public ServiceOrderService(ServiceOrderRepository serviceOrderRepository) {
         this.serviceOrderRepository = serviceOrderRepository;
     }
 
@@ -20,7 +28,11 @@ public class ServiceOrderService {
     }
 
     // DELETE
-    public void delete(UUID service_order_id){
-        return serviceOrderRepository.deleteById(service_order_id)
+    public List<ServiceOrderModel> delete(UUID service_order_id) {
+        if(!serviceOrderRepository.existsById(service_order_id)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Service order was not found!");
+        }
+        serviceOrderRepository.deleteById(service_order_id);
+        return getAll();
     }
 }
