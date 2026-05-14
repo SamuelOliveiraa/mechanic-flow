@@ -1,5 +1,6 @@
 package dev.samuel.mechanicflow.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -36,8 +37,10 @@ public class VehicleModel {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
+    @JsonIgnore
     private CustomerModel customer;
 
     @OneToMany(mappedBy = "vehicle")
+    @JsonIgnore
     private List<ServiceOrderModel> service_orders;
 }

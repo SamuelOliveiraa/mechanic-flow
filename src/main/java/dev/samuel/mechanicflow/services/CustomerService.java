@@ -28,12 +28,32 @@ public class CustomerService {
     }
 
     // DELETE
-    public List<CustomerModel> delete(UUID customer_id) {
+    public void delete(UUID customer_id) {
         if(!customerRepository.existsById(customer_id)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Customer was not found!");
         }
 
         customerRepository.deleteById(customer_id);
-        return getAll();
+    }
+
+
+    public CustomerModel update(UUID customer_id, CustomerModel customer){
+        CustomerModel existingCustomer = customerRepository.findById(customer_id)
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found!"));
+
+        if(customer.getEmail() != null && !customer.getEmail().isEmpty()){
+            existingCustomer.setEmail(customer.getEmail());
+        }
+
+        if(customer.getName() != null && !customer.getName().isEmpty()){
+            existingCustomer.setName(customer.getName());
+        }
+
+        if(customer.getPhone() != null && !customer.getPhone().isEmpty()){
+            existingCustomer.setPhone(customer.getPhone());
+        }
+
+        customerRepository.save(existingCustomer);
+        return existingCustomer;
     }
 }

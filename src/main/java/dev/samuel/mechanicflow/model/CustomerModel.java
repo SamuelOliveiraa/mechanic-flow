@@ -1,5 +1,6 @@
 package dev.samuel.mechanicflow.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "customers")
 @Data
-@NoArgsConstructor
+@NoArgsConstructor 
 public class CustomerModel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -32,5 +33,6 @@ public class CustomerModel {
     private String phone;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<VehicleModel> vehicles;
 }

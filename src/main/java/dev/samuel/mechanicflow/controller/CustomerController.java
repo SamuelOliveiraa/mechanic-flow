@@ -31,4 +31,10 @@ public class CustomerController {
         customerService.delete(customer_id);
     }
 
+
+    @PutMapping("/{customer_id}")
+    public CustomerModel update(@PathVariable UUID customer_id,@RequestBody CustomerModel customer){
+        return customerService.update(customer_id, customer);
+    }
+
 }
