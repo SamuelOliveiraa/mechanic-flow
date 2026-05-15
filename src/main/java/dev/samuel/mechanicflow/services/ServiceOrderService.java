@@ -4,22 +4,22 @@ import dev.samuel.mechanicflow.dto.ServiceOrderPostDTO;
 import dev.samuel.mechanicflow.model.ServiceOrderModel;
 import dev.samuel.mechanicflow.repository.ServiceOrderRepository;
 import dev.samuel.mechanicflow.repository.VehicleRepository;
+import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.beans.BeanUtils;
+
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ServiceOrderService {
     private final ServiceOrderRepository serviceOrderRepository;
     private final VehicleRepository vehicleRepository;
-
-    public ServiceOrderService(ServiceOrderRepository serviceOrderRepository, VehicleRepository vehicleRepository) {
-        this.serviceOrderRepository = serviceOrderRepository;
-        this.vehicleRepository = vehicleRepository;
-    }
 
     // GET
     public List<ServiceOrderModel> getAll(){
@@ -27,17 +27,16 @@ public class ServiceOrderService {
     }
 
     // POST
-    public List<ServiceOrderModel> save(ServiceOrderPostDTO service_order){
+    public List<ServiceOrderModel> save(@NonNull ServiceOrderPostDTO service_order){
         var vehicle = vehicleRepository.findById(service_order.vehicle_id())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehicle not found"));
 
-        ServiceOrderModel newServiceOrderModel = new ServiceOrderModel();
+        ServiceOrderModel newServiceOrder = new ServiceOrderModel();
 
-        newServiceOrderModel.setVehicle(vehicle);
-        newServiceOrderModel.setDescription(service_order.description());
-        newServiceOrderModel.setTotalPriceInCents(service_order.totalPriceInCents());
+        BeanUtils.copyProperties(service_order, newServiceOrder, "id", "vehicle");
+        newServiceOrder.setVehicle(vehicle);
 
-        serviceOrderRepository.save(newServiceOrderModel);
+        serviceOrderRepository.save(newServiceOrder);
 
         return getAll();
     }

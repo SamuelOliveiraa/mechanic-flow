@@ -2,6 +2,8 @@ package dev.samuel.mechanicflow.services;
 
 import dev.samuel.mechanicflow.model.CustomerModel;
 import dev.samuel.mechanicflow.repository.CustomerRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,12 +12,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
     private final CustomerRepository customerRepository;
-
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     // GET
     public List<CustomerModel> getAll(){
@@ -41,17 +40,7 @@ public class CustomerService {
         CustomerModel existingCustomer = customerRepository.findById(customer_id)
                         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found!"));
 
-        if(customer.getEmail() != null && !customer.getEmail().isEmpty()){
-            existingCustomer.setEmail(customer.getEmail());
-        }
-
-        if(customer.getName() != null && !customer.getName().isEmpty()){
-            existingCustomer.setName(customer.getName());
-        }
-
-        if(customer.getPhone() != null && !customer.getPhone().isEmpty()){
-            existingCustomer.setPhone(customer.getPhone());
-        }
+        BeanUtils.copyProperties(customer, existingCustomer, "id", "vehicles");
 
         customerRepository.save(existingCustomer);
         return existingCustomer;

@@ -1,5 +1,32 @@
-HELP.md
+### Java & Maven ###
 target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+### Variáveis de Ambiente (CRÍTICO) ###
+# Nunca suba suas senhas e URLs de banco para o GitHub
+.env
+.env.local
+.env.*
+application-local.properties
+application.properties
+
+### IntelliJ IDEA / Cursor / Zed ###
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.cursor/
+
+### Sistema e OS ###
+.DS_Store
+Thumbs.db
+
+### Maven Wrapper ###
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -13,12 +40,6 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -28,6 +49,3 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-
-### VS Code ###
-.vscode/
